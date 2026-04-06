@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masters Golf Pool 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a4a2e;
+    --green-mid: #2d6e47;
+    --green-light: #4a9e6e;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d0;
+    --white: #fdfcf9;
+    --text: #1a1a1a;
+    --text-muted: #5a5a4a;
+    --red: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green);
+    color: var(--cream);
+    text-align: center;
+    padding: 40px 20px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.015) 40px,
+      rgba(255,255,255,0.015) 80px
+    );
+  }
+  .flag-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .flag-line { height: 2px; width: 60px; background: var(--gold); }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    position: relative;
+  }
+  header .subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 6px;
+    position: relative;
+  }
+
+  /* ── NAV TABS ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    background: var(--green);
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    background: none;
+    border: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--cream); }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── MAIN CONTAINER ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  /* ── FORM ── */
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: 2px;
+    padding: 36px;
+    margin-bottom: 24px;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .field input, .field select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 2px;
+    background: var(--cream);
+    color: var(--text);
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5a4a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .field input:focus, .field select:focus {
+    outline: none;
+    border-color: var(--green-mid);
+  }
+
+  /* tier blocks */
+  .tiers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  @media (max-width: 560px) { .tiers-grid { grid-template-columns: 1fr; } }
+
+  .tier-block {
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--green);
+    color: var(--cream);
+  }
+  .tier-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 24px;
+  }
+  .tier-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,240,232,0.7); }
+  .tier-odds { margin-left: auto; font-size: 0.7rem; color: var(--gold-light); opacity: 0.8; }
+  .tier-block select {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 10px 36px 10px 14px;
+    border: none;
+    border-top: 1.5px solid var(--cream-dark);
+    background: var(--white);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5a4a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    color: var(--text);
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+  .tier-block select:focus { outline: 2px solid var(--green-mid); outline-offset: -2px; }
+  .tier-block select:hover { background-color: var(--cream); }
+
+  /* submit btn */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--green);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .submit-btn:hover { background: var(--green-mid); color: var(--gold-light); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 12px;
+  }
+
+  /* messages */
+  .msg {
+    padding: 14px 18px;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    margin-top: 16px;
+    display: none;
+  }
+  .msg.success { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+  .msg.error   { background: #fdecea; color: #b71c1c; border: 1px solid #ef9a9a; }
+  .msg.show { display: block; }
+
+  /* ── LEADERBOARD ── */
+  .lb-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .round-btns { display: flex; gap: 4px; }
+  .round-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1.5px solid var(--cream-dark);
+    border-radius: 2px;
+    background: var(--white);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .round-btn.active { background: var(--green); color: var(--gold); border-color: var(--green); }
+  .refresh-btn {
+    margin-left: auto;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border: 1.5px solid var(--green);
+    border-radius: 2px;
+    background: none;
+    color: var(--green);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .refresh-btn:hover { background: var(--green); color: var(--cream); }
+  .last-updated { font-size: 0.75rem; color: var(--text-muted); }
+
+  .lb-table { width: 100%; border-collapse: collapse; background: var(--white); }
+  .lb-table thead tr {
+    background: var(--green);
+    color: var(--cream);
+  }
+  .lb-table th {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .lb-table th.center { text-align: center; }
+  .lb-table td {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--cream-dark);
+    vertical-align: middle;
+  }
+  .lb-table td.center { text-align: center; }
+  .lb-table tr:last-child td { border-bottom: none; }
+  .lb-table tbody tr:hover { background: var(--cream); }
+
+  .rank-cell {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    width: 36px;
+  }
+  .rank-cell.top { color: var(--gold); }
+  .player-name { font-weight: 500; }
+  .score-total {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  .score-total.under { color: var(--green-mid); }
+  .score-total.over  { color: var(--red); }
+  .score-total.even  { color: var(--text-muted); }
+
+  .picks-row td {
+    padding: 4px 14px 12px;
+    background: var(--cream);
+  }
+  .picks-mini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pick-chip {
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    border-radius: 30px;
+    background: var(--cream-dark);
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .pick-chip.dropped {
+    text-decoration: line-through;
+    opacity: 0.45;
+  }
+  .pick-chip.mc {
+    color: var(--red);
+    border-color: rgba(192,57,43,0.25);
+    background: rgba(192,57,43,0.07);
+  }
+  .expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    padding: 2px 6px;
+    border-radius: 2px;
+    transition: color 0.15s;
+  }
+  .expand-btn:hover { color: var(--green); }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .empty-state .big { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 8px; color: var(--cream-dark); }
+
+  .loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  /* tab panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* rules card */
+  .rules-card {
+    background: var(--green);
+    color: var(--cream);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 40px;
+  }
+  .rule-item { font-size: 0.82rem; }
+  .rule-item strong { color: var(--gold); display: block; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="flag-row">
+    <div class="flag-line"></div>
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="13" stroke="#c9a84c" stroke-width="1.5"/>
+      <path d="M14 4v8l6 3-6-3V4z" fill="#c9a84c"/>
+      <circle cx="14" cy="24" r="1.5" fill="#c9a84c"/>
+    </svg>
+    <div class="flag-line"></div>
+  </div>
+  <h1>Masters Pool 2026</h1>
+  <div class="subtitle">Augusta National · April 10–13</div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('picks')">Make Your Picks</button>
+  <button class="tab-btn" onclick="showTab('leaderboard')">Leaderboard</button>
+</div>
+
+<!-- ══ PICKS TAB ══ -->
+<div id="tab-picks" class="tab-panel active">
+<div class="container">
+
+  <div class="rules-card">
+    <div class="rule-item"><strong>Format</strong>1 pick per tier (6 total)</div>
+    <div class="rule-item"><strong>Scoring</strong>Total strokes by your 6 golfers</div>
+    <div class="rule-item"><strong>Drop rule</strong>Worst score dropped — best 5 count</div>
+    <div class="rule-item"><strong>Missed cut</strong>Earns worst score of day (Sat/Sun)</div>
+    <div class="rule-item"><strong>Winner</strong>Lowest total score wins</div>
+  </div>
+
+  <p class="section-title">Submit Your Picks</p>
+  <p class="section-sub">Deadline: Thursday April 10 · 12:00 PM ET (first tee time)</p>
+
+  <div class="form-card">
+    <div class="form-row">
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="f-name" placeholder="First Last" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" id="f-phone" placeholder="(555) 555-5555" autocomplete="tel">
+      </div>
+    </div>
+
+    <div class="tiers-grid" id="tiers-grid">
+      <!-- Injected by JS -->
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitPicks()">Submit My Picks</button>
+    <p class="form-note">Picks are final once submitted. Contact the commissioner to make changes.</p>
+    <div class="msg success" id="msg-success">✓ Your picks have been submitted! Good luck at Augusta.</div>
+    <div class="msg error" id="msg-error">Something went wrong. Please try again or contact the commissioner.</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══ LEADERBOARD TAB ══ -->
+<div id="tab-leaderboard" class="tab-panel">
+<div class="container">
+
+  <p class="section-title">Pool Standings</p>
+  <p class="section-sub" id="lb-subtitle">Loading standings...</p>
+
+  <div class="lb-controls">
+    <div class="round-btns">
+      <button class="round-btn active" onclick="setRound('total',this)">Total</button>
+      <button class="round-btn" onclick="setRound('R1',this)">R1</button>
+      <button class="round-btn" onclick="setRound('R2',this)">R2</button>
+      <button class="round-btn" onclick="setRound('R3',this)">R3</button>
+      <button class="round-btn" onclick="setRound('R4',this)">R4</button>
+    </div>
+    <span class="last-updated" id="last-updated"></span>
+    <button class="refresh-btn" onclick="loadLeaderboard()">↻ Refresh</button>
+  </div>
+
+  <div id="lb-container">
+    <div class="loading-spinner">Loading standings…</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG — update these after setting up Sheets
+// ══════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+const SHEET_ID        = 'YOUR_GOOGLE_SHEET_ID_HERE';
+
+// ══════════════════════════════════════════════
+//  TIER DATA
+// ══════════════════════════════════════════════
+const TIERS = [
+  {
+    num: 1, label: 'The Elite', range: '4/1 – 31/1',
+    players: [
+      'Scottie Scheffler','Jon Rahm','Rory McIlroy','Bryson DeChambeau',
+      'Ludvig Aberg','Xander Schauffele','Cameron Young','Tommy Fleetwood',
+      'Matt Fitzpatrick','Collin Morikawa'
+    ]
+  },
+  {
+    num: 2, label: 'Top Contenders', range: '36/1 – 47/1',
+    players: [
+      'Justin Rose','Brooks Koepka','Jordan Spieth','Hideki Matsuyama',
+      'Robert MacIntyre','Russell Henley','Chris Gotterup','Patrick Reed',
+      'Viktor Hovland','Si Woo Kim'
+    ]
+  },
+  {
+    num: 3, label: 'Strong Mid-Field', range: '54/1 – 70/1',
+    players: [
+      'Min Woo Lee','Justin Thomas','Patrick Cantlay','Adam Scott',
+      'Akshay Bhatia','Sepp Straka','Jake Knapp','Jason Day',
+      'Tyrrell Hatton','Shane Lowry'
+    ]
+  },
+  {
+    num: 4, label: 'Value Picks', range: '72/1 – 105/1',
+    players: [
+      'Sam Burns','Corey Conners','Nicolai Hojgaard','J.J. Spaun',
+      'Kurt Kitayama','Jacob Bridgeman','Maverick McNealy','Cameron Smith',
+      'Matthew McCarty','Harris English'
+    ]
+  },
+  {
+    num: 5, label: 'Long Shots', range: '110/1 – 165/1',
+    players: [
+      'Ben Griffin','Daniel Berger','Gary Woodland','Max Homa',
+      'Sungjae Im','Rasmus Hojgaard','Keegan Bradley','Harry Hall',
+      'Marco Penge','Alexander Noren'
+    ]
+  },
+  {
+    num: 6, label: 'Deep Sleepers', range: '170/1+',
+    players: [
+      'Ryan Gerard','Aaron Rai','Nick Taylor','Brian Harman',
+      'Sam Stevens','Ryan Fox','Sergio Garcia','Wyndham Clark',
+      'Max Greyserman','Dustin Johnson','Casey Jarvis','Carlos Ortiz',
+      'Hao-Tong Li','Tom McKibbin','Kristoffer Reitan','Nicolas Echavarria',
+      'Rasmus Neergaard-Petersen','John Keefer','Michael Kim','Andrew Novak',
+      'Aldrich Potgieter','Michael Brennan','Sami Valimaki','Bubba Watson',
+      'Charl Schwartzel','Davis Riley','Zach Johnson','Brian Campbell',
+      'Danny Willett','Ethan Fang','Fifa Laopakdee','Angel Cabrera',
+      'Jackson Herrington','Mason Howell','Mateo Pulcini','Naoyuki Kataoka',
+      'Vijay Singh','Brandon Holtz','Fred Couples','Jose Maria Olazabal',
+      'Mike Weir'
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════
+//  BUILD FORM
+// ══════════════════════════════════════════════
+function buildForm() {
+  const grid = document.getElementById('tiers-grid');
+  grid.innerHTML = TIERS.map(t => `
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-num">${t.num}</span>
+        <span class="tier-label">${t.label}</span>
+        <span class="tier-odds">${t.range}</span>
+      </div>
+      <select id="tier-${t.num}" required>
+        <option value="">— Select a golfer —</option>
+        ${t.players.map(p => `<option value="${p}">${p}</option>`).join('')}
+      </select>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════
+//  SUBMIT PICKS
+// ══════════════════════════════════════════════
+async function submitPicks() {
+  const name  = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!phone) { alert('Please enter your phone number.'); return; }
+
+  const picks = {};
+  for (let t of TIERS) {
+    const val = document.getElementById(`tier-${t.num}`).value;
+    if (!val) { alert(`Please select a golfer from Tier ${t.num}.`); return; }
+    picks[`tier${t.num}`] = val;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const payload = { action: 'submit', name, phone, ...picks, timestamp: new Date().toISOString() };
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('msg-success').classList.add('show');
+    btn.textContent = '✓ Submitted';
+  } catch(e) {
+    document.getElementById('msg-error').classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Submit My Picks';
+  }
+}
+
+// ══════════════════════════════════════════════
+//  LEADERBOARD
+// ══════════════════════════════════════════════
+let currentRound = 'total';
+let lbData = null;
+
+function setRound(round, btn) {
+  currentRound = round;
+  document.querySelectorAll('.round-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (lbData) renderLeaderboard(lbData);
+}
+
+async function loadLeaderboard() {
+  const container = document.getElementById('lb-container');
+  container.innerHTML = '<div class="loading-spinner">Loading standings…</div>';
+
+  try {
+    const url = `${APPS_SCRIPT_URL}?action=leaderboard&t=${Date.now()}`;
+    const res  = await fetch(url);
+    lbData     = await res.json();
+    renderLeaderboard(lbData);
+    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  } catch(e) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="big">⛳</div>
+      <p>Standings not available yet.</p>
+      <p style="margin-top:6px;font-size:0.78rem;">The tournament hasn't started, or scores haven't been entered.</p>
+    </div>`;
+    document.getElementById('lb-subtitle').textContent = 'Standings will appear once the tournament begins.';
+  }
+}
+
+function fmtScore(s) {
+  if (s === null || s === undefined || s === '') return '–';
+  const n = Number(s);
+  if (isNaN(n)) return s;
+  if (n < 0)  return n.toString();
+  if (n === 0) return 'E';
+  return '+' + n;
+}
+
+function scoreClass(s) {
+  const n = Number(s);
+  if (isNaN(n) || s === '' || s === null) return 'even';
+  if (n < 0) return 'under';
+  if (n > 0) return 'over';
+  return 'even';
+}
+
+function renderLeaderboard(data) {
+  const container = document.getElementById('lb-container');
+  const sub = document.getElementById('lb-subtitle');
+
+  if (!data || !data.entries || data.entries.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="big">⛳</div>
+      <p>No entries yet.</p>
+    </div>`;
+    sub.textContent = 'Be the first to submit your picks!';
+    return;
+  }
+
+  // Sort by selected round
+  const entries = [...data.entries].sort((a, b) => {
+    const sa = currentRound === 'total' ? a.total : (a.rounds && a.rounds[currentRound]);
+    const sb = currentRound === 'total' ? b.total : (b.rounds && b.rounds[currentRound]);
+    if (sa === null || sa === undefined) return 1;
+    if (sb === null || sb === undefined) return -1;
+    return Number(sa) - Number(sb);
+  });
+
+  sub.textContent = `${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} · ${data.round || 'Pre-tournament'}`;
+
+  let html = `<table class="lb-table">
+    <thead>
+      <tr>
+        <th style="width:36px">#</th>
+        <th>Entrant</th>
+        <th class="center">Score</th>
+        <th class="center" style="width:40px"></th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  entries.forEach((e, i) => {
+    const score = currentRound === 'total' ? e.total : (e.rounds && e.rounds[currentRound]);
+    const rowId = `picks-${i}`;
+    html += `
+      <tr>
+        <td class="rank-cell ${i < 3 ? 'top' : ''}">${i+1}</td>
+        <td class="player-name">${e.name}</td>
+        <td class="center score-total ${scoreClass(score)}">${fmtScore(score)}</td>
+        <td class="center">
+          <button class="expand-btn" onclick="togglePicks('${rowId}',this)">▾</button>
+        </td>
+      </tr>
+      <tr class="picks-row" id="${rowId}" style="display:none">
+        <td colspan="4">
+          <div class="picks-mini">
+            ${(e.picks || []).map(p => `
+              <span class="pick-chip ${p.dropped ? 'dropped' : ''} ${p.mc ? 'mc' : ''}">
+                T${p.tier} · ${p.name}${p.score !== undefined && p.score !== '' ? ' · ' + fmtScore(p.score) : ''}${p.mc ? ' (MC)' : ''}${p.dropped ? ' ✕' : ''}
+              </span>
+            `).join('')}
+          </div>
+        </td>
+      </tr>`;
+  });
+
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function togglePicks(id, btn) {
+  const row = document.getElementById(id);
+  const hidden = row.style.display === 'none';
+  row.style.display = hidden ? 'table-row' : 'none';
+  btn.textContent = hidden ? '▴' : '▾';
+}
+
+// ══════════════════════════════════════════════
+//  TAB SWITCHING
+// ══════════════════════════════════════════════
+function showTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+  if (tab === 'leaderboard') loadLeaderboard();
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+buildForm();
+</script>
+</body>
+</html>
