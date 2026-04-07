@@ -756,14 +756,35 @@ function togglePicks(id, btn) {
 // ══════════════════════════════════════════════
 //  TAB SWITCHING
 // ══════════════════════════════════════════════
+const LEADERBOARD_PASSWORD = 'johnny';
+const UNLOCK_DATE = new Date('2026-04-09T12:00:00Z'); // Thursday 12pm ET
+
 function showTab(tab) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   event.target.classList.add('active');
-  if (tab === 'leaderboard') loadLeaderboard();
-}
 
+  if (tab === 'leaderboard') {
+    if (new Date() >= UNLOCK_DATE) {
+      loadLeaderboard();
+    } else if (sessionStorage.getItem('lb_unlocked') === 'true') {
+      loadLeaderboard();
+    } else {
+      const guess = prompt('Leaderboard is locked until Thursday. Enter the password to peek:');
+      if (guess === LEADERBOARD_PASSWORD) {
+        sessionStorage.setItem('lb_unlocked', 'true');
+        loadLeaderboard();
+      } else {
+        document.getElementById('lb-container').innerHTML = `<div class="empty-state">
+          <div class="big">🔒</div>
+          <p>Leaderboard locked until Thursday April 10.</p>
+          <p style="margin-top:6px;font-size:0.78rem;">Check back after the first tee time!</p>
+        </div>`;
+      }
+    }
+  }
+}
 // ══════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════
