@@ -437,10 +437,25 @@
   </div></header>
 
 <div class="tabs">
-  <button class="tab-btn" onclick="showTab('picks')">Make Your Picks</button>
-  <button class="tab-btn active" onclick="showTab('leaderboard')">Leaderboard</button>
+  <button class="tab-btn" onclick="showTab('picks', this)">Make Your Picks</button>
+  <button class="tab-btn active" onclick="showTab('live', this)">Live Leaderboard</button>
+  <button class="tab-btn" onclick="showTab('leaderboard', this)">Pool Picks</button>
 </div>
-
+  
+<!-- ══ LIVE LEADERBOARD TAB ══ -->
+<div id="tab-live" class="tab-panel">
+<div class="container">
+  <p class="section-title">Live Leaderboard</p>
+  <p class="section-sub" id="live-sub">Loading standings…</p>
+  <div class="lb-controls">
+    <span class="last-updated" id="live-updated"></span>
+    <button class="refresh-btn" onclick="loadLive()">↻ Refresh</button>
+  </div>
+  <div id="live-container">
+    <div class="loading-spinner">Loading…</div>
+  </div>
+</div>
+</div>
 <!-- ══ PICKS TAB ══ -->
 <div id="tab-picks" class="tab-panel active">
 <div class="container">
@@ -769,6 +784,72 @@ function showTab(tab, btn) {
 // ══════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════
+const SHEET_ID = '1eO6k64RCmnjdZETeRPl_f0S3UwzrRYLF';
+
+async function loadLive() {
+  const container = document.getElementById('live-container');
+  container.innerHTML = '<div class="loading-spinner">Loading…</div>';
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/1eO6k64RCmnjdZETeRPl_f0S3UwzrRYLF/gviz/tq?tqx=out:json&sheet=Sheet2`;
+    const res  = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const rows = json.table.rows;
+
+    // Parse entries — col B=Name, col K=To Par (index 1 and 10)
+    const entries = rows.slice(1).map(r => ({
+      name:  r.c[1]?.v || '',
+      score: r.c[10]?.v ?? null
+    })).filter(e => e.name);
+
+    // Sort by score ascending
+    entries.sort((a, b) => {
+      if (a.score === null) return 1;
+      if (b.score === null) return -1;
+      return a.score - b.score;
+    });
+
+    document.getElementById('live-sub').textContent = `${entries.length} entries · Updates every 30 min`;
+    document.getElementById('live-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+
+    const fmtScore = s => {
+      if (s === null || s === undefined) return '–';
+      if (s === 0) return 'E';
+      return s > 0 ? '+' + s : String(s);
+    };
+    const scoreClass = s => {
+      if (s === null) return 'even';
+      if (s < 0) return 'under';
+      if (s > 0) return 'over';
+      return 'even';
+    };
+
+    let html = `<table class="lb-table">
+      <thead><tr>
+        <th style="width:36px">#</th>
+        <th>Entrant</th>
+        <th class="center">To Par</th>
+      </tr></thead><tbody>`;
+
+    entries.forEach((e, i) => {
+      html += `<tr>
+        <td class="rank-cell ${i < 3 ? 'top' : ''}">${i + 1}</td>
+        <td class="player-name">${e.name}</td>
+        <td class="center score-total ${scoreClass(e.score)}">${fmtScore(e.score)}</td>
+      </tr>`;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+
+  } catch(err) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="big">⛳</div>
+      <p>Could not load standings.</p>
+      <p style="font-size:0.78rem;margin-top:6px;">Make sure your Google Sheet is published to the web.</p>
+    </div>`;
+  }
+}
 buildForm();
 showTab('leaderboard', document.querySelector('.tab-btn:last-child'));
 </script>
